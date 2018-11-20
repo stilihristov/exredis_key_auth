@@ -8,10 +8,11 @@ defmodule ExredisKeyAuth do
   @doc """
   Gets a corresponding work_group_id in relation to the keys
   """
-  def get(keys) do
+  def authenticate(access_key, secret_key) do
+    combined = access_key <> ":" <> secret_key
     {:ok, client} = start_link()
 
-    work_group_id = client |> query(["GET", keys])
+    work_group_id = client |> query(["GET", combined])
 
     client |> Exredis.stop
 
@@ -20,16 +21,5 @@ defmodule ExredisKeyAuth do
     else
       work_group_id
     end
-  end
-
-  @doc """
-  Sets a key/work_group pair
-  """
-  def set(keys, work_group_id) do
-   {:ok, client} = start_link()
-
-    work_group_id = client |> query(["SET", keys, work_group_id])
-
-    client |> Exredis.stop
   end
 end
