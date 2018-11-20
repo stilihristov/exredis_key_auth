@@ -5,6 +5,9 @@ defmodule ExredisKeyAuth do
   """
   import Exredis
 
+  @doc """
+  Gets a corresponding work_group_id in relation to the keys
+  """
   def get(keys) do
     {:ok, client} = start_link()
 
@@ -19,6 +22,9 @@ defmodule ExredisKeyAuth do
     end
   end
 
+  @doc """
+  Sets a key/work_group pair
+  """
   def set(keys, work_group_id) do
    {:ok, client} = start_link()
 
