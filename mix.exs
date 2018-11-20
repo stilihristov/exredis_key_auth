@@ -7,7 +7,9 @@ defmodule ExredisKeyAuth.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package()
     ]
   end
 
@@ -19,7 +21,7 @@ defmodule ExredisKeyAuth.MixProject do
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib", "mix.exs", "README*"],
       maintainers: ["Stiliyan Hristov"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/stilihristov/exredis_key_auth"}
