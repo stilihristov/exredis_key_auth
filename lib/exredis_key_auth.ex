@@ -8,6 +8,14 @@ defmodule ExredisKeyAuth do
   @doc """
   Gets a corresponding work_group_id in relation to the keys
   """
+  def authenticate(conn) do
+    access_key = Enum.at(get_req_header(conn, "access_key"),0)
+    secret_key = Enum.at(get_req_header(conn, "secret_key"),0)
+
+    authenticate(access_key, secret_key)
+  end
+
+
   def authenticate(access_key, secret_key) do
     combined = access_key <> ":" <> secret_key
     {:ok, client} = start_link()
