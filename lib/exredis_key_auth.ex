@@ -22,4 +22,19 @@ defmodule ExredisKeyAuth do
       work_group_id
     end
   end
+
+  def authenticate(access_key, secret_key, "pdfler") do
+    combined = access_key <> ":" <> secret_key
+    {:ok, client} = E.start_link()
+
+    work_group_id = client |> R.hmget("pdfler:credentials_sets", combined)
+
+    client |> E.stop
+
+    if (work_group_id == :undefined) do
+      :undefined
+    else
+      work_group_id
+    end
+  end
 end

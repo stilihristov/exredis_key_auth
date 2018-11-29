@@ -4,7 +4,7 @@ defmodule ExredisKeyAuth.MixProject do
   def project do
     [
       app: :exredis_key_auth,
-      version: "0.2.2",
+      version: "0.3.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
