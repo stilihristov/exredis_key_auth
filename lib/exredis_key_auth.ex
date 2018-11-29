@@ -5,6 +5,7 @@ defmodule ExredisKeyAuth do
   """
   alias Exredis, as: E
   alias Exredis.Api, as: A
+  require IEx
   @doc """
   Gets a corresponding work_group_id in relation to the keys
   """
@@ -27,7 +28,7 @@ defmodule ExredisKeyAuth do
     combined = access_key <> ":" <> secret_key
     {:ok, client} = E.start_link()
 
-    work_group_id = client |> R.hmget("pdfler:credentials_sets", combined)
+    work_group_id = client |> A.hget("pdfler:credentials_sets", combined)
 
     client |> E.stop
 
