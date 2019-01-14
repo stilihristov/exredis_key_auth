@@ -5,37 +5,30 @@ defmodule ExredisKeyAuth do
   """
   alias Exredis, as: E
   alias Exredis.Api, as: A
-  require IEx
+
   @doc """
   Gets a corresponding work_group_id in relation to the keys
   """
-  def authenticate(access_key, secret_key) do
+  def authenticate(access_key, secret_key, service) do
     combined = access_key <> ":" <> secret_key
     {:ok, client} = E.start_link()
 
-    work_group_id = client |> E.query(["GET", combined])
+    work_group_id = client |> A.hget("#{service}:credentials_sets", combined)
 
     client |> E.stop
 
-    if (work_group_id == :undefined) do
-      :undefined
-    else
-      work_group_id
-    end
+    is_undefined(work_group_id)
   end
 
-  def authenticate(access_key, secret_key, "pdfler") do
-    combined = access_key <> ":" <> secret_key
-    {:ok, client} = E.start_link()
+  @doc """
+  If the work_group_id could not be resolved return an atom of :undefined
+  Pdfler returns an error 401 not authorized.
+  """
+  def is_undefined(work_group_id) when work_group_id == :undefined do
+    :undefined
+  end
 
-    work_group_id = client |> A.hget("pdfler:credentials_sets", combined)
-
-    client |> E.stop
-
-    if (work_group_id == :undefined) do
-      :undefined
-    else
-      work_group_id
-    end
+  def is_undefined(work_group_id) do
+    work_group_id
   end
 end
